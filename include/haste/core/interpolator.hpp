@@ -33,7 +33,7 @@ class InterpolatorType {
   static inline auto bilinearKernel(const Location &x, const Location &y) -> ValueArray<2, 2>;
 
   template<int kRows, int kCols>
-  static auto bilinearBlock(const ValueArray<kRows, kCols>& mat, const Location &xp, const Location &yp) -> Eigen::Ref<ValueArray<2, 2>>;
+  static inline auto bilinearBlock(const ValueArray<kRows, kCols>& mat, const Location &xp, const Location &yp) -> Eigen::Ref<ValueArray<2, 2>>;
 
 };
 }// namespace haste

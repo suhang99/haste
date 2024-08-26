@@ -16,7 +16,7 @@ class RpgDataset {
   static inline auto loadCalibration(const std::string& file_path, Camera& camera) -> bool;
 
  protected:
-  static auto countLinesInFile(std::ifstream& file) -> size_t;
+  static inline auto countLinesInFile(std::ifstream& file) -> size_t;
 };
 }// namespace haste
 

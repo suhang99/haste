@@ -29,17 +29,17 @@ class PatchType {// Either the Template or the Model of a feature
 
   PatchType();
 
-  static auto isWithinPatch(const Location &xp, const Location &yp) -> bool;
-  auto incrementLocationByValue(const Location &xp, const Location &yp, const Value &increment) -> bool;
-  auto operator()(const Location &xp, const Location &yp) -> Value;
-  auto block(const Location &xp, const Location &yp) -> Eigen::Ref<Eigen::Array<Value, 2, 2>>;
+  static inline auto isWithinPatch(const Location &xp, const Location &yp) -> bool;
+  inline auto incrementLocationByValue(const Location &xp, const Location &yp, const Value &increment) -> bool;
+  inline auto operator()(const Location &xp, const Location &yp) -> Value;
+  inline auto block(const Location &xp, const Location &yp) -> Eigen::Ref<Eigen::Array<Value, 2, 2>>;
 
   template<size_t N>
-  auto operator()(const Eigen::Array<Location, N, 1> &xp, const Eigen::Array<Location, N, 1> &yp)
+  inline auto operator()(const Eigen::Array<Location, N, 1> &xp, const Eigen::Array<Location, N, 1> &yp)
       -> Eigen::Array<Value, N, 1>;
 
-  auto data() const -> const Data&  { return data_; };
-  auto data() -> Data& { return data_; };// TODO: probably this must be hidden.
+  inline auto data() const -> const Data&  { return data_; };
+  inline auto data() -> Data& { return data_; };// TODO: probably this must be hidden.
 
  private:
   Data data_;

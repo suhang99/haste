@@ -15,13 +15,13 @@ class HasteGui : public quickgui::Gui {
   using EventsIterator = Events::iterator;
   using EventsConstIterator = Events::const_iterator;
 
-  static auto drawEvents(const EventsConstIterator& it_begin, const EventsConstIterator& it_end) -> void;
-  auto drawSeedWithCrosshair(const Vector3& seed) -> void;
+  inline static auto drawEvents(const EventsConstIterator& it_begin, const EventsConstIterator& it_end) -> void;
+  inline auto drawSeedWithCrosshair(const Vector3& seed) -> void;
 
-  HasteGui(const Scalar& camera_width, const Scalar& camera_height, const Events* events_ptr);
+  inline HasteGui(const Scalar& camera_width, const Scalar& camera_height, const Events* events_ptr);
 
-  auto resetCamera() -> void override;
-  auto run_() -> void override;
+  inline auto resetCamera() -> void override;
+  inline auto run_() -> void override;
 
  private:
   const Events* events_ptr_;

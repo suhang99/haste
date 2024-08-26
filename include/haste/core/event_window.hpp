@@ -28,23 +28,23 @@ class FixedSizeLocationEventWindowType {
   static constexpr size_t kNewestEventIdx = kSize - 1;
   static constexpr size_t kMiddleEventIdx = (kSize - 1) / 2;
 
-  FixedSizeLocationEventWindowType();
+  inline FixedSizeLocationEventWindowType();
 
   // TODO(ialzugaray): template to direct access without getEvent
-  auto getEvent(const size_t &idx) const -> EventTuple;
-  auto oldestEvent() const -> EventTuple;
-  auto newestEvent() const -> EventTuple;
-  auto middleEvent() const -> EventTuple;
+  inline auto getEvent(const size_t &idx) const -> EventTuple;
+  inline auto oldestEvent() const -> EventTuple;
+  inline auto newestEvent() const -> EventTuple;
+  inline auto middleEvent() const -> EventTuple;
 
-  auto setEvent(const Time &et, const Location &ex, const Location &ey, const size_t &idx) -> void;
-  auto setEvent(const EventTuple &event, const size_t &idx) -> void;
-  auto appendEvent(const Time &et, const Location &ex, const Location &ey) -> EventTuple;
-  auto appendEvent(const EventTuple &new_event) -> EventTuple;
+  inline auto setEvent(const Time &et, const Location &ex, const Location &ey, const size_t &idx) -> void;
+  inline auto setEvent(const EventTuple &event, const size_t &idx) -> void;
+  inline auto appendEvent(const Time &et, const Location &ex, const Location &ey) -> EventTuple;
+  inline auto appendEvent(const EventTuple &new_event) -> EventTuple;
 
   // TODO(ialzugaray): convert to const ref getters. Maybe transpose the underlying data depending on use
-  auto et_vec() const -> TimeVector { return et_vec_; };
-  auto ex_vec() const -> LocationVector { return ex_vec_; };
-  auto ey_vec() const -> LocationVector { return ey_vec_; };
+  inline auto et_vec() const -> TimeVector { return et_vec_; };
+  inline auto ex_vec() const -> LocationVector { return ex_vec_; };
+  inline auto ey_vec() const -> LocationVector { return ey_vec_; };
 
  protected:
   TimeVector et_vec_;

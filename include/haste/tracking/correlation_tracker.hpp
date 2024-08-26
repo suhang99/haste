@@ -10,17 +10,17 @@ class CorrelationTracker : public HypothesisPatchTracker {
  public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-  CorrelationTracker(const Time &t, const Location &x, const Location &y, const Orientation &theta);
+  inline CorrelationTracker(const Time &t, const Location &x, const Location &y, const Orientation &theta);
 
-  auto trackerName() const -> std::string override;
-  auto updateTemplate() -> void override;
-  auto eventWindowToModel(const EventWindow &event_window, const Hypothesis &hypothesis) const -> Patch override;
-  auto initializeHypotheses() -> void override;
-  auto updateHypothesesScore(const EventTuple &oldest_event, const EventTuple &newest_event) -> void override;
+  inline auto trackerName() const -> std::string override;
+  inline auto updateTemplate() -> void override;
+  inline auto eventWindowToModel(const EventWindow &event_window, const Hypothesis &hypothesis) const -> Patch override;
+  inline auto initializeHypotheses() -> void override;
+  inline auto updateHypothesesScore(const EventTuple &oldest_event, const EventTuple &newest_event) -> void override;
 
  protected:
-  auto getHypothesisScore_(const Hypothesis &hypothesis) const -> Scalar;
-  auto setGaussianWeight_() -> void;
+  inline auto getHypothesisScore_(const Hypothesis &hypothesis) const -> Scalar;
+  inline auto setGaussianWeight_() -> void;
   EventWindowVector<Weight> weights_;
 };
 }// namespace haste

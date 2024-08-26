@@ -69,42 +69,42 @@ class HypothesisPatchTracker {
   template<size_t N>
   using LocationVector = Eigen::Array<Location, N, 1>;
 
-  HypothesisPatchTracker(const Time &t, const Location &x, const Location &y, const Orientation &theta);
+  inline HypothesisPatchTracker(const Time &t, const Location &x, const Location &y, const Orientation &theta);
 
   template<int N>
-  auto patchLocation(const LocationVector<N> &ex_vec, const LocationVector<N> &ey_vec, const Hypothesis &state) const
+  inline auto patchLocation(const LocationVector<N> &ex_vec, const LocationVector<N> &ey_vec, const Hypothesis &state) const
       -> std::pair<LocationVector<N>, LocationVector<N>>;
 
-  auto isEventInRange(const Location &ex, const Location &ey) const -> bool;
-  auto patchLocation(const Location &ex, const Location &ey, const Hypothesis &state) const
+  inline auto isEventInRange(const Location &ex, const Location &ey) const -> bool;
+  inline auto patchLocation(const Location &ex, const Location &ey, const Hypothesis &state) const
       -> std::pair<Location, Location>;
-  auto updateTemplateWithMiddleEvent(const Weight &weight) -> void;
-  auto eventWindowToModelUnitary(const EventWindow &event_window, const Hypothesis &hypothesis,
+  inline auto updateTemplateWithMiddleEvent(const Weight &weight) -> void;
+  inline auto eventWindowToModelUnitary(const EventWindow &event_window, const Hypothesis &hypothesis,
                                  const Weight &weight = 1.0) const -> Patch;
-  auto eventWindowToModelVector(const EventWindow &event_window, const Hypothesis &hypothesis,
+  inline auto eventWindowToModelVector(const EventWindow &event_window, const Hypothesis &hypothesis,
                                 const EventWindowVector<Weight> &weights) const -> Patch;
-  auto initializeTracker() -> void;
-  auto updateHypothesesTimeFromMiddleEvent();
-  auto pushEvent(const Time &et, const Location &ex, const Location &ey) -> EventUpdate;
-  auto getBestHypothesisIdx() const -> size_t;
-  auto transitionToHypothesis(const Hypothesis &hypothesis) -> void;
+  inline auto initializeTracker() -> void;
+  inline auto updateHypothesesTimeFromMiddleEvent();
+  inline auto pushEvent(const Time &et, const Location &ex, const Location &ey) -> EventUpdate;
+  inline auto getBestHypothesisIdx() const -> size_t;
+  inline auto transitionToHypothesis(const Hypothesis &hypothesis) -> void;
 
-  virtual auto appendEventToWindow(const EventTuple &newest_event) -> EventTuple;
-  virtual auto trackerName() const -> std::string = 0;
-  virtual auto updateTemplate() -> void = 0;
-  virtual auto initializeHypotheses() -> void = 0;
-  virtual auto updateHypothesesScore(const EventTuple &oldest_event, const EventTuple &newest_event) -> void = 0;
-  virtual auto eventWindowToModel(const EventWindow &event_window, const Hypothesis &hypothesis) const -> Patch = 0;
+  virtual inline  auto appendEventToWindow(const EventTuple &newest_event) -> EventTuple;
+  virtual inline auto trackerName() const -> std::string = 0;
+  virtual inline auto updateTemplate() -> void = 0;
+  virtual inline auto initializeHypotheses() -> void = 0;
+  virtual inline auto updateHypothesesScore(const EventTuple &oldest_event, const EventTuple &newest_event) -> void = 0;
+  virtual inline auto eventWindowToModel(const EventWindow &event_window, const Hypothesis &hypothesis) const -> Patch = 0;
 
-  auto state() const -> const Hypothesis & { return hypotheses_[kNullHypothesisIdx]; }
-  auto t() const -> const Time & { return state().t(); }
-  auto x() const -> const Location & { return state().x(); }
-  auto y() const -> const Location & { return state().y(); }
-  auto theta() const -> const Orientation & { return state().theta(); }
-  auto event_window() const -> EventWindow { return event_window_; }
-  auto tracker_template() const -> const Patch & { return template_; }
-  auto event_counter() const -> const size_t & { return event_counter_; }
-  auto status() const -> const TrackerStatus & { return status_; }
+  inline auto state() const -> const Hypothesis & { return hypotheses_[kNullHypothesisIdx]; }
+  inline auto t() const -> const Time & { return state().t(); }
+  inline auto x() const -> const Location & { return state().x(); }
+  inline auto y() const -> const Location & { return state().y(); }
+  inline auto theta() const -> const Orientation & { return state().theta(); }
+  inline auto event_window() const -> EventWindow { return event_window_; }
+  inline auto tracker_template() const -> const Patch & { return template_; }
+  inline auto event_counter() const -> const size_t & { return event_counter_; }
+  inline auto status() const -> const TrackerStatus & { return status_; }
 
  protected:
   TrackerStatus status_ = kUninitialized;
