@@ -20,6 +20,13 @@ find_package(Eigen3 REQUIRED)
 
 include_directories(include)
 
+add_library(${PROJECT_NAME} INTERFACE)
+target_include_directories(${PROJECT_NAME} 
+  INTERFACE 
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+
 add_executable(tracking_app_file src/tracking_app_file.cpp)
 target_link_libraries(tracking_app_file ${OpenCV_LIBS} gflags glog
                       Eigen3::Eigen)
@@ -39,3 +46,11 @@ if(GUI)
 else()
   message("-DGUI=false. No GUI will be compiled.")
 endif()
+
+install(TARGETS ${PROJECT_NAME}
+  EXPORT ${PROJECT_NAME}Targets
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  RUNTIME DESTINATION bin
+  INCLUDES
+  DESTINATION include)
