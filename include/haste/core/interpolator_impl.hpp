@@ -60,15 +60,14 @@ auto InterpolatorType<Value, Location>::bilinearSample(const ValueArray<kRows, k
 
 template<typename Value, typename Location>
 template<int kRows, int kCols, int kSamples>
-auto InterpolatorType<Value, Location>::bilinearSampleVector(const ValueArray<kRows, kCols> &mat,
-                                                             const LocationArray<kSamples, 1> &x_vec,
-                                                             const LocationArray<kSamples, 1> &y_vec)
-    -> ValueArray<kSamples, 1> {
+auto InterpolatorType<Value, Location>::bilinearSampleVector(
+    const ValueArray<kRows, kCols> &mat, const LocationArray<kSamples, 1> &x_vec,
+    const LocationArray<kSamples, 1> &y_vec) -> ValueArray<kSamples, 1> {
   static_assert(std::is_same<Value, float>::value || std::is_same<Value, double>::value,
                 "Arrays must be composed of doubles or float");
   static_assert(kRows != -1 || kCols != -1, "Sampled array must be fixed size");
 
-  using ValueVector = Eigen::Array<Value, kSamples, 1>;
+  // using ValueVector = Eigen::Array<Value, kSamples, 1>;
   using LocationVector = Eigen::Array<Location, kSamples, 1>;
   using LinearArray = Eigen::Array<Value, kRows * kCols, 1>;
   using LinearArrayConstMap = Eigen::Map<const LinearArray>;
@@ -97,16 +96,15 @@ auto InterpolatorType<Value, Location>::bilinearSampleVector(const ValueArray<kR
 
 template<typename Value, typename Location>
 auto InterpolatorType<Value, Location>::bilinearKernel(const Location &x, const Location &y) -> ValueArray<2, 2> {
-//  Value dx = x - std::floor(x);
-//  Value dy = y - std::floor(y);
-//  Value dxdy = dx * dy;
+  //  Value dx = x - std::floor(x);
+  //  Value dy = y - std::floor(y);
+  //  Value dxdy = dx * dy;
 
   const int ix = (int) x;
   const int iy = (int) y;
   const Location dx = x - ix;
   const Location dy = y - iy;
   const Location dxdy = dx * dy;
-
 
   ValueArray<2, 2> kernel;// TODO assumes column major
 
@@ -124,7 +122,7 @@ auto InterpolatorType<Value, Location>::bilinearBlock(const ValueArray<kRows, kC
                                                       const Location &yp) -> Eigen::Ref<ValueArray<2, 2>> {
   // TODO: Guard if out of range;
   //if (xp >= 0 && yp >= 0 && xp < (kSize - 1) && yp < (kSize - 1)) {
-  return mat.block<2, 2>((int) xp, (int) yp);// TODO: check this conversion to int
+  return mat.template block<2, 2>((int) xp, (int) yp);// TODO: check this conversion to int
   /*} else {
     return Eigen::Array<Value, 2, 2>::Zero();
   }

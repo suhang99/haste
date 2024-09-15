@@ -48,7 +48,11 @@ inline auto createTracker(const std::string& tracker_type, const TrackerState& s
 
 /// Read the current state of a tracker and take a provided id to generate a tracker State.
 inline auto composeTrackerState(const TrackerState::ID& tracker_id, const Tracker& tracker) -> TrackerState {
-  return {.t = tracker.t(), .x = tracker.x(), .y = tracker.y(), .theta = tracker.theta(), .id = tracker_id};
+  return {.t = static_cast<float>(tracker.t()),
+          .x = tracker.x(),
+          .y = tracker.y(),
+          .theta = tracker.theta(),
+          .id = tracker_id};
 };
 /// Generate a tracker state joining a provided ID and a tracker and append it to a vector of tracker states.
 inline auto appendTrackerState(const TrackerState::ID& tracker_id, const Tracker& tracker,
@@ -70,7 +74,7 @@ inline auto getTrackerStateFromString(const std::string& str) -> TrackerState {
   auto theta = (TrackerState::Scalar) std::stod(seed_str[3]);
 
   if (seed_str.size() == 4) {
-    return TrackerState{.t = t, .x = x, .y = y, .theta = theta};
+    return TrackerState{.t = t, .x = x, .y = y, .theta = theta, .id = 0};
   } else if (seed_str.size() == 5) {
     auto id = (TrackerState::ID) std::stoul(seed_str[4]);
     return TrackerState{.t = t, .x = x, .y = y, .theta = theta, .id = id};

@@ -37,8 +37,8 @@ auto HasteCorrelationTracker::initializeHypotheses() -> void {
   hypotheses_score_ = (samples_stack_.matrix() * weights_.matrix()).array();
 };
 
-auto HasteCorrelationTracker::updateHypothesesScore(const EventTuple &oldest_event, const EventTuple &newest_event)
-    -> void {
+auto HasteCorrelationTracker::updateHypothesesScore([[maybe_unused]] const EventTuple &oldest_event,
+                                                    [[maybe_unused]] const EventTuple &newest_event) -> void {
   // Ignore newest and oldest event and proceed from scratch
   hypotheses_score_ = (samples_stack_.matrix() * weights_.matrix()).array();
 };

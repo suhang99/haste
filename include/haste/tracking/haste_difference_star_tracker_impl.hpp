@@ -16,10 +16,10 @@ auto HasteDifferenceStarTracker::initializeHypotheses() -> void {
   }
 };
 
-auto HasteDifferenceStarTracker::updateHypothesesScore(const EventTuple &oldest_event, const EventTuple &newest_event)
-    -> void {
-  const auto &[t_old, x_old, y_old] = oldest_event;
-  const auto &[t_new, x_new, y_new] = newest_event;
+auto HasteDifferenceStarTracker::updateHypothesesScore(const EventTuple &oldest_event,
+                                                       const EventTuple &newest_event) -> void {
+  [[maybe_unused]] const auto &[t_old, x_old, y_old] = oldest_event;
+  [[maybe_unused]] const auto &[t_new, x_new, y_new] = newest_event;
 
   for (size_t i = 0; i < kNumHypotheses; ++i) {
     const auto &hypothesis = hypotheses_[i];

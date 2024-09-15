@@ -4,13 +4,13 @@
 #include <glog/logging.h>
 
 namespace haste {
-auto RpgDataset::countLinesInFile(std::ifstream& file) -> size_t{
+auto RpgDataset::countLinesInFile(std::ifstream& file) -> size_t {
   file.clear();
-  file.seekg(0, std::ios::beg);  // Reset reading point
+  file.seekg(0, std::ios::beg);// Reset reading point
   size_t n_lines = 0;
-  for (std::string line;!file.eof(); ++n_lines) {std::getline(file, line);}
+  for (std::string line; !file.eof(); ++n_lines) { std::getline(file, line); }
   file.clear();
-  file.seekg(0, std::ios::beg);  // Reset reading point
+  file.seekg(0, std::ios::beg);// Reset reading point
   return n_lines;
 }
 
@@ -35,7 +35,8 @@ auto RpgDataset::loadEvents(const std::string& file_path, std::vector<Event>& ev
     bool p;
     file >> t >> x >> y >> p;
 
-    events.template emplace_back(Event{.t = t, .x = x, .y = y, .p = p});
+    events.template emplace_back(
+        Event{.t = t, .x = static_cast<float>(x), .y = static_cast<float>(y), .p = p});
   }
 
   file.close();

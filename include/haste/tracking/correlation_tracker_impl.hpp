@@ -3,8 +3,7 @@
 
 namespace haste {
 
-CorrelationTracker::CorrelationTracker(const Time &t, const Location &x, const Location &y,
-                                                   const Orientation &theta)
+CorrelationTracker::CorrelationTracker(const Time &t, const Location &x, const Location &y, const Orientation &theta)
     : HypothesisPatchTracker(t, x, y, theta) {
   setGaussianWeight_();
 }
@@ -15,8 +14,8 @@ auto CorrelationTracker::updateTemplate() -> void {
   updateTemplateWithMiddleEvent(weights_[EventWindow::kMiddleEventIdx]);
 };
 
-auto CorrelationTracker::eventWindowToModel(const EventWindow &event_window, const Hypothesis &hypothesis) const
-    -> Patch {
+auto CorrelationTracker::eventWindowToModel(const EventWindow &event_window,
+                                            const Hypothesis &hypothesis) const -> Patch {
   return eventWindowToModelVector(event_window, hypothesis, weights_);
 };
 
@@ -24,8 +23,8 @@ auto CorrelationTracker::initializeHypotheses() -> void {
   for (size_t i = 0; i < kNumHypotheses; ++i) { hypotheses_score_[i] = getHypothesisScore_(hypotheses_[i]); }
 };
 
-auto CorrelationTracker::updateHypothesesScore(const EventTuple &oldest_event, const EventTuple &newest_event)
-    -> void {
+auto CorrelationTracker::updateHypothesesScore([[maybe_unused]] const EventTuple &oldest_event,
+                                               [[maybe_unused]] const EventTuple &newest_event) -> void {
   // Ignore newest and oldest event and proceed from scratch
   for (size_t i = 0; i < kNumHypotheses; ++i) { hypotheses_score_[i] = getHypothesisScore_(hypotheses_[i]); }
 };
