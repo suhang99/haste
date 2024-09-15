@@ -11,7 +11,7 @@
 namespace haste {
 
 /// Auxilliar function to split strings into tokens given a delimiter.
-auto splitString(const std::string& s, char delim) -> std::vector<std::string> {
+inline auto splitString(const std::string& s, char delim) -> std::vector<std::string> {
   std::vector<std::string> ret;
   std::istringstream iss(s);
   std::string item;
@@ -20,7 +20,7 @@ auto splitString(const std::string& s, char delim) -> std::vector<std::string> {
 }
 
 template<typename Derived>
-cv::Mat EigenArrayToCv(const Eigen::ArrayBase<Derived>& array) {
+inline cv::Mat EigenArrayToCv(const Eigen::ArrayBase<Derived>& array) {
   Eigen::Matrix<typename Derived::Scalar, -1, -1> mat = array.matrix();
   cv::Mat mat_cv;
   cv::eigen2cv(mat, mat_cv);
@@ -30,7 +30,7 @@ cv::Mat EigenArrayToCv(const Eigen::ArrayBase<Derived>& array) {
 }
 
 template<typename Derived>
-void ImshowEigenArray(const std::string& winname, const Eigen::ArrayBase<Derived>& array) {
+inline void ImshowEigenArray(const std::string& winname, const Eigen::ArrayBase<Derived>& array) {
   Eigen::Matrix<typename Derived::Scalar, -1, -1> matrix = array.matrix();
   cv::Mat matrix_cv;
   cv::eigen2cv(matrix, matrix_cv);
@@ -39,7 +39,7 @@ void ImshowEigenArray(const std::string& winname, const Eigen::ArrayBase<Derived
 }
 
 template<typename Derived>
-void ImshowEigenArrayNormalized(const std::string& winname, const Eigen::ArrayBase<Derived>& array) {
+inline void ImshowEigenArrayNormalized(const std::string& winname, const Eigen::ArrayBase<Derived>& array) {
   Eigen::Matrix<typename Derived::Scalar, -1, -1> matrix =
       ((array - array.minCoeff()) / (array.maxCoeff() - array.minCoeff())).matrix();
   cv::Mat matrix_cv;

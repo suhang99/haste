@@ -28,7 +28,7 @@ struct TrackerState {
 };
 
 /// Create an instance of tracker type specified and return its shared pointer from base class.
-auto createTracker(const std::string& tracker_type, const TrackerState& seed) -> TrackerPtr {
+inline auto createTracker(const std::string& tracker_type, const TrackerState& seed) -> TrackerPtr {
   LOG(INFO) << "Selected tracker type: " << tracker_type;
   if (tracker_type == "correlation") {
     return std::make_shared<haste::CorrelationTracker>(seed.t, seed.x, seed.y, seed.theta);
@@ -47,17 +47,17 @@ auto createTracker(const std::string& tracker_type, const TrackerState& seed) ->
 }
 
 /// Read the current state of a tracker and take a provided id to generate a tracker State.
-auto composeTrackerState(const TrackerState::ID& tracker_id, const Tracker& tracker) -> TrackerState {
+inline auto composeTrackerState(const TrackerState::ID& tracker_id, const Tracker& tracker) -> TrackerState {
   return {.t = tracker.t(), .x = tracker.x(), .y = tracker.y(), .theta = tracker.theta(), .id = tracker_id};
 };
 /// Generate a tracker state joining a provided ID and a tracker and append it to a vector of tracker states.
-auto appendTrackerState(const TrackerState::ID& tracker_id, const Tracker& tracker, std::vector<TrackerState>& states)
-    -> void {
+inline auto appendTrackerState(const TrackerState::ID& tracker_id, const Tracker& tracker,
+                               std::vector<TrackerState>& states) -> void {
   states.push_back(composeTrackerState(tracker_id, tracker));
 }
 
 /// Convert string ("t,x,y,theta,id") to a tracker state.
-auto getTrackerStateFromString(const std::string& str) -> TrackerState {
+inline auto getTrackerStateFromString(const std::string& str) -> TrackerState {
   constexpr auto delimiter = ',';
   auto seed_str = splitString(str, delimiter);
   CHECK(seed_str.size() == 4 || seed_str.size() == 5)
@@ -80,7 +80,7 @@ auto getTrackerStateFromString(const std::string& str) -> TrackerState {
 }
 
 /// Load tracker states from file.
-auto getTrackerStatesFromFile(const std::string& file_path) -> std::vector<TrackerState> {
+inline auto getTrackerStatesFromFile(const std::string& file_path) -> std::vector<TrackerState> {
   LOG(INFO) << "Loading tracker states (Format: t,x,y,theta,id) from file " << file_path << " ...";
   std::ifstream file(file_path);
   CHECK(!file.fail()) << "Error opening file: " << file_path;
@@ -88,16 +88,14 @@ auto getTrackerStatesFromFile(const std::string& file_path) -> std::vector<Track
   std::vector<TrackerState> states;
   // Loop over lines parsing them as states.
   std::string str_line;
-  while (file >> str_line) {
-    states.push_back(getTrackerStateFromString(str_line));
-  }
+  while (file >> str_line) { states.push_back(getTrackerStateFromString(str_line)); }
   file.close();
   LOG(INFO) << "Successfully loaded " << states.size() << " states.";
   return states;
 }
 
 /// Write a vector of tracker states to a file.
-auto writeTrackerStates(const std::vector<TrackerState>& states, const std::string& file_path) -> void {
+inline auto writeTrackerStates(const std::vector<TrackerState>& states, const std::string& file_path) -> void {
   LOG(INFO) << "Writing tracking states (Format: t,x,y,theta,id) in file " << file_path << " ...";
   std::ofstream file(file_path);
   if (file.fail()) { LOG(ERROR) << "Error opening file. " << file_path; }
@@ -114,7 +112,7 @@ auto writeTrackerStates(const std::vector<TrackerState>& states, const std::stri
 /// The event-stream will be forward and backward inspected to force an initialization as close as possible in time-space as the originating seed.
 /// Initialization might fail if not enough events are found before and after the initial seed.
 // TODO: Employ (templated) iterators instead of the vector per se.
-auto initializeTrackerCentered(std::vector<Event>& events, Tracker& tracker) -> std::vector<Event>::iterator {
+inline auto initializeTrackerCentered(std::vector<Event>& events, Tracker& tracker) -> std::vector<Event>::iterator {
 
   CHECK_EQ(tracker.status(), haste::HypothesisPatchTracker::kUninitialized);
   CHECK_EQ(tracker.event_counter(), 0);// It is not half-initialized
@@ -131,7 +129,7 @@ auto initializeTrackerCentered(std::vector<Event>& events, Tracker& tracker) -> 
     }
   }
 
-  if (it == events.end()) { LOG(ERROR) << "Event stream finished before feature is initialized."; }
+  // if (it == events.end()) { LOG(ERROR) << "Event stream finished before feature is initialized."; }
   return it;
 }
 
@@ -139,7 +137,7 @@ auto initializeTrackerCentered(std::vector<Event>& events, Tracker& tracker) -> 
 /// The event-stream will be processed forwards in time, initializing the tracker arbitrarily later than the original seed time.
 /// Initialization might fail if not enough events are found after the initial seed.
 // TODO: Employ (templated) iterators instead of the vector per se.
-auto initializeTrackerRegular(std::vector<Event>& events, Tracker& tracker) -> std::vector<Event>::iterator {
+inline auto initializeTrackerRegular(std::vector<Event>& events, Tracker& tracker) -> std::vector<Event>::iterator {
   CHECK_EQ(tracker.status(), haste::HypothesisPatchTracker::kUninitialized);
   CHECK_EQ(tracker.event_counter(), 0);// It is not half-initialized
 
@@ -159,7 +157,7 @@ auto initializeTrackerRegular(std::vector<Event>& events, Tracker& tracker) -> s
   }
 
   if (events_past_seed.size() != kEventWindowSizeHalf) {
-    LOG(ERROR) << "Not enough events before the provided seed to enable centered tracker initialization.";
+    // LOG(ERROR) << "Not enough events before the provided seed to enable centered tracker initialization.";
     return events.end();
   }
 
@@ -183,7 +181,7 @@ auto initializeTrackerRegular(std::vector<Event>& events, Tracker& tracker) -> s
     }
   }
 
-  if (it == events.end()) { LOG(ERROR) << "Event stream finished before tracker is initialized."; }
+  // if (it == events.end()) { LOG(ERROR) << "Event stream finished before tracker is initialized."; }
   return it;
 }
 
